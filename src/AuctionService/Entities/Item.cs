@@ -7,7 +7,6 @@ using ActionService.Entities;
 
 namespace AuctionService.Entities
 {
-
     [Table("Items")]
     public class Item
     {

@@ -16,26 +16,24 @@ namespace AuctionService.Data.Migrations
                 table: "Auctions",
                 type: "timestamp with time zone",
                 nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+            );
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "UpdatedAt",
                 table: "Auctions",
                 type: "timestamp with time zone",
                 nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "AuctionEnd",
-                table: "Auctions");
+            migrationBuilder.DropColumn(name: "AuctionEnd", table: "Auctions");
 
-            migrationBuilder.DropColumn(
-                name: "UpdatedAt",
-                table: "Auctions");
+            migrationBuilder.DropColumn(name: "UpdatedAt", table: "Auctions");
         }
     }
 }

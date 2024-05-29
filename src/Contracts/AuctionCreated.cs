@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AuctionService.DTOs
+namespace Contracts
 {
-    public class AuctionDto
+    public class AuctionCreated
     {
         public Guid Id { get; set; }
         public int ReservePrice { get; set; } = 0;

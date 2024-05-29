@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Entities;
 
-namespace AuctionService.DTOs
+namespace SearchService.Models
 {
-    public class AuctionDto
+    public class Item : Entity
     {
-        public Guid Id { get; set; }
         public int ReservePrice { get; set; } = 0;
         public string Seller { get; set; }
         public string Winner { get; set; }

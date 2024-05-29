@@ -1,22 +1,39 @@
 using System;
-using System.Linq;
+using AuctionService.Consummers;
 using AuctionService.Data;
-using Microsoft.AspNetCore.Builder;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddControllers();
 builder.Services.AddDbContext<AuctionDbContext>(opt =>
 {
     opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-
-// MappingProfiles
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddMassTransit(x =>
+{
+    x.AddEntityFrameworkOutbox<AuctionDbContext>(o =>
+    {
+        o.QueryDelay = TimeSpan.FromSeconds(10);
 
-// Add services to the container.
-builder.Services.AddControllers();
+        o.UsePostgres();
+        o.UseBusOutbox();
+    });
+
+    x.AddConsumersFromNamespaceContaining<AuctionCreatedFaultConsumer>();
+
+    x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("auction", false));
+
+    x.UsingRabbitMq(
+        (context, cfg) =>
+        {
+            cfg.ConfigureEndpoints(context);
+        }
+    );
+});
 
 var app = builder.Build();
 
@@ -28,12 +45,11 @@ app.MapControllers();
 
 try
 {
-    // DbInitializer.DropDb(app);
     DbInitializer.InitDb(app);
 }
-catch (System.Exception e)
+catch (Exception e)
 {
-    System.Console.WriteLine(e);
+    Console.WriteLine(e);
 }
 
 app.Run();
