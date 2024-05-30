@@ -45,7 +45,9 @@ namespace SearchService.Data
                 System.Console.WriteLine($"Add {items.Count} items from Auction Service");
 
                 await DB.SaveAsync(items);
-            }else{
+            }
+            else
+            {
                 System.Console.WriteLine($"Has {count} item in MongoDB");
             }
         }

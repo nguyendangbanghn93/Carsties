@@ -21,5 +21,4 @@ namespace SearchService.Consummers
                 throw new MessageException(typeof(AuctionDeleted), "Problem deleting auction");
         }
     }
-
 }

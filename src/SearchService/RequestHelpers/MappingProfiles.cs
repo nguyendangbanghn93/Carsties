@@ -15,6 +15,5 @@ namespace SearchService.RequestHelpers
             CreateMap<AuctionCreated, Item>();
             CreateMap<AuctionUpdated, Item>();
         }
-
     }
 }
