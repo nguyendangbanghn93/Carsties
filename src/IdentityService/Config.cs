@@ -1,4 +1,5 @@
-﻿using Duende.IdentityServer.Models;
+﻿using System.Collections.Generic;
+using Duende.IdentityServer.Models;
 
 namespace IdentityService;
 
