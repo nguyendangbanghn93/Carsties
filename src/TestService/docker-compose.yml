@@ -1,0 +1,19 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "7003:8000"
+    volumes:
+      - .:/app/TestService
+      - ../Contracts:/app/Contracts
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - carties-backend
+    command: dotnet watch --force
+networks:
+  carties-backend:
+    driver: bridge
+    name: carties-backend

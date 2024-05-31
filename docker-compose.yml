@@ -7,6 +7,8 @@ services:
       - 5432:5432
     volumes:
       - /var/lib/postresql/data
+    networks:
+      - carties-backend
   mongodb:
     image: mongo
     environment:
@@ -16,14 +18,18 @@ services:
       - 27017:27017
     volumes:
       - /var/lib/mongodb/data
+    networks:
+      - carties-backend
   rabbitmq:
     image: rabbitmq:3-management-alpine
     ports:
       - 5672:5672
       - 15672:15672
+    networks:
+      - carties-backend
   auction-svc:
     # image: trycatchlearn/auction-svc:latest
-    build: 
+    build:
       context: .
       dockerfile: src/AuctionService/Dockerfile
     environment:
@@ -37,9 +43,11 @@ services:
     depends_on:
       - postgres
       - rabbitmq
+    networks:
+      - carties-backend
   search-svc:
     # image: trycatchlearn/search-svc:latest
-    build: 
+    build:
       context: .
       dockerfile: src/SearchService/Dockerfile
     environment:
@@ -53,9 +61,11 @@ services:
     depends_on:
       - mongodb
       - rabbitmq
+    networks:
+      - carties-backend
   identity-svc:
     # image: trycatchlearn/identity-svc:latest
-    build: 
+    build:
       context: .
       dockerfile: src/IdentityService/Dockerfile
     environment:
@@ -66,9 +76,11 @@ services:
       - 5000:80
     depends_on:
       - postgres
+    networks:
+      - carties-backend
   gateway-svc:
     # image: trycatchlearn/gateway-svc:latest
-    build: 
+    build:
       context: .
       dockerfile: src/GatewayService/Dockerfile
     environment:
@@ -76,3 +88,9 @@ services:
       - ASPNETCORE_URLS=http://+:80
     ports:
       - 6001:80
+    networks:
+      - carties-backend
+networks:
+  carties-backend:
+    driver: bridge
+    name: carties-backend
